@@ -7,5 +7,5 @@ from .serializers import SystemAppSerializer
 @api_view(['GET'])
 def get_system_apps(request):
     apps = SystemApp.objects.filter(is_active=True)
-    serializer = SystemAppSerializer(apps, many=True)
+    serializer = SystemAppSerializer(apps, many=True, context={'request': request})
     return Response(serializer.data)
