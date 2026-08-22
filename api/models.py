@@ -1,7 +1,6 @@
 from django.db import models
 
 class SystemApp(models.Model):
-    # --- NEW: Dropdown options for Admin Panel ---
     PROJECT_TYPE_CHOICES = [
         ('Personal Project', 'Personal Project'),
         ('Client Project', 'Client Project'),
@@ -12,14 +11,12 @@ class SystemApp(models.Model):
     name = models.CharField(max_length=100)
     icon = models.ImageField(upload_to='icons/') 
     
-    # --- Project Details ---
     description = models.TextField(blank=True, null=True, help_text="Project overview")
     tech_stack = models.CharField(max_length=255, blank=True, null=True)
     frontend_repo = models.URLField(blank=True, null=True, help_text="GitHub Frontend Link")
     backend_repo = models.URLField(blank=True, null=True, help_text="GitHub Backend Link")
     live_link = models.URLField(blank=True, null=True, help_text="Live Hosted URL")
     
-    # --- NEW: The categorization field ---
     project_type = models.CharField(
         max_length=50, 
         choices=PROJECT_TYPE_CHOICES, 
@@ -32,6 +29,7 @@ class SystemApp(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class SystemOS(models.Model):
     icon = models.ImageField(upload_to='system_icons/', null=True, blank=True)
@@ -51,3 +49,26 @@ class SystemOS(models.Model):
     
     class Meta:
         verbose_name_plural = "System OS Info"
+
+
+# --- NEW: About Us / Profile Model ---
+class AboutMe(models.Model):
+    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
+    name = models.CharField(max_length=100, default="Vishal Sinha")
+    description = models.TextField(blank=True, null=True, help_text="Detailed about me description")
+    
+    # Social Links
+    github_url = models.URLField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+    x_url = models.URLField(blank=True, null=True, help_text="Twitter / X URL")
+    instagram_url = models.URLField(blank=True, null=True)
+    facebook_url = models.URLField(blank=True, null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"About: {self.name}"
+    
+    class Meta:
+        verbose_name_plural = "About Me Info"
